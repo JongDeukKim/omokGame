@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+	<header>
+		<title>오목 게임</title>
+		<meta charset="utf-8">
+		<script src="omokGame.js"></script>
+		<script src="omokStage.js"></script>
+		<script src="omokJudge.js"></script>
+	</header>
+	<body onload="loadGame()">
+		<h1> 오목 게임 </h1>
+		<button onclick="onStart()"> Start </button> 
+		<button onclick="onReStart()"> Re-Start </button> 
+		<button onclick="onUndo()"> Undo </button> 
+		<div id="myStatus"> 게임 시작. 검정 차례. </div>
+		<canvas id="myCanvas" width="500" height="500" style="border:1px solid #d3d3d3;"  
+				onmousemove="onMouseMove(event)" 
+				onmousedown="onMouseClick(event)"
+				onmouseout="onMouseOut(this)">
+		Your browser does not support the HTML5 canvas tag.</canvas>
+
+		<script>
+			var game = null;
+			function loadGame()
+			{
+				 game = new omokGame("small");
+			}
+					
+			function onStart()
+			{
+				game.start();
+			}
+
+			function onReStart()
+			{
+				game.start();
+			}
+
+			function undo()
+			{
+				game.undo();
+			}
+
+			function onMouseMove(event)
+			{
+				game.onMouseMove(event);
+			}
+
+			function onMouseClick(event)
+			{
+				game.onMouseClick(event);
+			}
+
+			function onMouseOut(obj)
+			{
+				game.onMouseOut(obj);
+			}
+
+		</script>
+
+	</body>
+</html>
