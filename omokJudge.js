@@ -11,7 +11,7 @@ omokJudge.prototype.isFinished = function()
 		var continueNum = this.getMaxContinueNum(lastStone.x, lastStone.y);
 		if(continueNum >= 5)
 		{
-			alert("Game Finished. " + this.stage.getStone(lastStone.x, lastStone.y) + " Win!!!!");
+			alert("Game Finished. " + this.stage.getStone(lastStone.x, lastStone.y).color + " Win!!!!");
 			return true;
 		}
 	}
@@ -51,49 +51,75 @@ omokJudge.prototype.getMaxContinueNum = function(x, y)
 	
 	var stone = this.stage.getStone(x,y);
 	
-	if(stone != "empty")
+	if(stone.color != "empty")
 	{
-		console.log("["+x+","+y+"] = " + stone);
+		console.log("["+x+","+y+"] = " + stone.color);
 	}
 
 	var direct = 1;
+	var maxW = this.stage.getXNum();
+	var maxH = this.stage.getYNum();
 
 	for(direct = 1; direct<=8; direct++)
 	{
 		var cont = 0;
-		while(stone != "empty")
+		while(stone.color != "empty")
 		{ 
 			cont ++;
-			var nextStone = "empty";
+			var nextStone = { color:"empty", order:-1};
 			switch(direct)
 			{
 				case 1 :
-					nextStone = this.stage.getStone(x+cont, y);
+					if(x+cont < maxW)
+					{
+						nextStone = this.stage.getStone(x+cont, y);
+					}
 					break;
-				case 2 : 
-					nextStone = this.stage.getStone(x+cont, y+cont);
+				case 2 :
+					if(x+cont < maxW && y+cont < maxH)
+					{ 
+						nextStone = this.stage.getStone(x+cont, y+cont);
+					}
 					break;
 				case 3 : 
-					nextStone = this.stage.getStone(x, y+cont);
+					if(y+cont < maxH)
+					{ 
+						nextStone = this.stage.getStone(x, y+cont);
+					}
 					break;
-				case 4 : 
-					nextStone = this.stage.getStone(x-cont, y+cont);
+				case 4 :
+					if(x-cont >= 0 && y+cont < maxH)
+					{  
+						nextStone = this.stage.getStone(x-cont, y+cont);
+					}
 					break;
 				case 5 : 
-					nextStone = this.stage.getStone(x-cont, y);
+					if(x-cont >=0)
+					{ 
+						nextStone = this.stage.getStone(x-cont, y);
+					}
 					break;
 				case 6 : 
-					nextStone = this.stage.getStone(x-cont, y-cont);
+					if(x-cont >=0 && y-cont >= 0)
+					{ 
+						nextStone = this.stage.getStone(x-cont, y-cont);
+					}
 					break;
 				case 7 : 
-					nextStone = this.stage.getStone(x, y-cont);
+					if(y-cont >= 0)
+					{
+						nextStone = this.stage.getStone(x, y-cont);
+					}
 					break;
 				case 8 : 
-					nextStone = this.stage.getStone(x+cont, y-cont);
+					if(x+cont < maxW && y-cont >= 0)
+					{ 
+						nextStone = this.stage.getStone(x+cont, y-cont);
+					}
 					break;						
 			}
 
-			if(nextStone != stone)
+			if(nextStone.color != stone.color)
 			{
 				break;
 			}

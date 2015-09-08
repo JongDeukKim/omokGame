@@ -9,6 +9,7 @@ function omokGame (type)
 	this.status = document.getElementById("myStatus");
 	this.stage = new omokStage(gridNum, gridNum, this.canvas);
 	this.judge = new omokJudge(this.stage);
+	this.AI = new omokAI("white", this.stage);
 	this.playing = false;
 }
 
@@ -53,6 +54,18 @@ omokGame.prototype.onMouseClick = function(event)
 		else
 		{
 			this.status.innerText = this.stage.currColor + " 차례."
+			this.AI.myTurn();
+			if(this.judge.isFinished())
+			{
+				this.end();
+				this.start();
+
+				this.status.innerText = "게임을 다시 시작합니다. "+ this.stage.currColor + " 차례."
+			}
+			else
+			{
+				this.status.innerText = this.stage.currColor + " 차례."
+			}
 		}
 	}
 }

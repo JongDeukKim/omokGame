@@ -11,6 +11,7 @@ function omokStage (xNum, yNum, canvas)
 	this.ctx = this.canvas.getContext("2d");
 	this.gridWidth = Math.round((this.stageW-this.stageBorder*2)/(xNum-1));
 	this.gridHeight = Math.round((this.stageH-this.stageBorder*2)/(yNum-1));
+	this.count = 0;
 
 	this.bgImage = new Image(this.stageW, this.stageH);
 	this.bgImage.src = "plate.jpg";
@@ -22,17 +23,29 @@ function omokStage (xNum, yNum, canvas)
 
 omokStage.prototype.getXNum = function() { return this.maxX; }
 omokStage.prototype.getYNum = function() { return this.maxY; }
+omokStage.prototype.getStoneNum = function() { return this.count; }
 
 omokStage.prototype.getStone = function (x, y)
 {
 	return this.points[this.getIndex(x, y)];
 }
 
-omokStage.prototype.addStone = function(x, y, color)
+omokStage.prototype.addStone = function(x, y, myColor)
 {
-	if(this.getStone(x, y) == "empty")
+	if(this.getStone(x, y).color == "empty")
 	{
-		this.points[this.getIndex(x,y)] = color;
+		this.count ++;
+		this.points[this.getIndex(x,y)] = { color:myColor, order:this.count };
+
+		if(this.currColor == "black")
+    	{
+    		this.currColor = "white";
+    	}
+    	else
+    	{
+    		this.currColor = "black";
+    	}
+    	this.lastPoint = {x:x, y:y};
 	}
 }
 
@@ -50,7 +63,7 @@ omokStage.prototype.reset = function()
 	for(y=0; y<this.maxY; y++) for(x=0; x<this.maxX; x++)
 	{
 		var index = y*this.maxY + x;
-		this.points[index] = "empty";
+		this.points[index] = { color:"empty", order:-1};
 	}
 
 	this.currColor = "black";
@@ -119,7 +132,7 @@ omokStage.prototype.onMouseClick = function(event)
     var xIndex = Math.round(xPos/this.gridWidth);
     var yIndex = Math.round(yPos/this.gridHeight);
 
-    if(this.getStone(xIndex, yIndex) != "empty")
+    if(this.getStone(xIndex, yIndex).color != "empty")
     {
     	alert("Please select another position.");
     }
@@ -128,40 +141,38 @@ omokStage.prototype.onMouseClick = function(event)
     	this.addStone(xIndex, yIndex, this.currColor);
     	this.drawStone(xIndex, yIndex);
 
-    	if(this.currColor == "black")
+    	/*if(this.currColor == "black")
     	{
     		this.currColor = "white";
     	}
     	else
     	{
     		this.currColor = "black";
-    	}
+    	}*/
     }
 
-    this.lastPoint = {x:xIndex, y:yIndex};
+    /*this.lastPoint = {x:xIndex, y:yIndex};*/
 }
 
 omokStage.prototype.drawStone = function(x, y)
 {
 	var xPos = x * this.gridWidth + this.stageBorder;
 	var yPos = y * this.gridHeight + this.stageBorder;
-	var color = this.getStone(x, y);
-	if(color != "empty")
+	var stone = this.getStone(x, y);
+	if(stone.color != "empty")
 	{
 		this.ctx.beginPath();
 		this.ctx.arc(xPos,yPos,(this.gridWidth*0.3),0,2*Math.PI);
 		this.ctx.stroke();
 
-		this.ctx.fillStyle=color;
+		this.ctx.fillStyle=stone.color;
 		this.ctx.fill();
 
-		/*
 		this.ctx.fillStyle="blue";
-		this.ctx.font = "20px Arial";
+		this.ctx.font = "16px Arial";
 		this.ctx.textAlign = "center";
 		this.ctx.textBaseline="middle"; 
-		this.ctx.fillText(order+1,xPos,yPos);
-		*/
+		this.ctx.fillText(stone.order,xPos,yPos);
 	}
 }
 
@@ -171,9 +182,9 @@ omokStage.prototype.drawAllStones = function()
 	for(y=0; y<this.maxY; y++) for(x=0; x<this.maxX; x++)
 	{
 		var stone = this.getStone(x, y);
-		if( stone != "empty")
+		if( stone.color != "empty")
 		{
-			this.drawStone(x, y, stone);
+			this.drawStone(x, y);
 		}
 	}
 }
