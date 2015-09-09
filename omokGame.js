@@ -32,10 +32,10 @@ omokGame.prototype.undo = function()
 
 omokGame.prototype.onMouseMove = function(event)
 {
-	if(this.playing)
+	/*if(this.playing)
 	{
 		this.stage.onMouseMove(event);
-	}
+	}*/
 }
 
 omokGame.prototype.onMouseClick = function(event)
@@ -72,9 +72,9 @@ omokGame.prototype.onMouseClick = function(event)
 
 omokGame.prototype.onMouseOut = function(obj)
 {
-	if(this.playing)
+	/*if(this.playing)
 	{
 		this.stage.drawStage();
 	    this.stage.drawAllStones();
-	}
+	}*/
 }

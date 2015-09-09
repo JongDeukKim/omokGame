@@ -11,7 +11,6 @@ function omokStage (xNum, yNum, canvas)
 	this.ctx = this.canvas.getContext("2d");
 	this.gridWidth = Math.round((this.stageW-this.stageBorder*2)/(xNum-1));
 	this.gridHeight = Math.round((this.stageH-this.stageBorder*2)/(yNum-1));
-	this.count = 0;
 
 	this.bgImage = new Image(this.stageW, this.stageH);
 	this.bgImage.src = "plate.jpg";
@@ -58,6 +57,7 @@ omokStage.prototype.getIndex = function(x, y)
 omokStage.prototype.reset = function()
 {
 	this.points = [];
+	this.count = 0;
 
 	var x, y;
 	for(y=0; y<this.maxY; y++) for(x=0; x<this.maxX; x++)
@@ -75,7 +75,7 @@ omokStage.prototype.drawStage = function()
 	var w = this.stageW-this.stageBorder;
 	var h = this.stageH-this.stageBorder;
 
-	console.log("draw bgImage...");
+	//console.log("draw bgImage...");
 	if(this.bgImage.complete == false)
 	{
 		return;
