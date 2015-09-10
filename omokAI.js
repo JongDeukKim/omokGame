@@ -66,7 +66,7 @@ omokAI.prototype.calBestPoint = function()
 	//    5  x  1
 	//    4  3  2
 	var  attContPoint = 100;
-	var  defContPoint = 150;
+	var  defContPoint = 110;
 	var  attRemainPoint = 1;
 	var  defRemainPoint = 1;
 
@@ -80,12 +80,15 @@ omokAI.prototype.calBestPoint = function()
 			continue;
 		}
 
+		var contGains = [1, 1, 1, 1, 1, 1, 1, 1];
+		var defGains = [1, 1, 1, 1, 1, 1, 1, 1];
 		for(d=1; d<=8; d++)
 		{
 			var cont = 1;
 			var space = 0;
-			var contGain = 1;
-			var defGain = 1;
+			var ocgd = (d+3)%8;
+			var contGain = contGains[ocgd];
+			var defGain = defGains[ocgd];
 			
 			while(cont < (this.w*this.h))
 			{
@@ -153,7 +156,7 @@ omokAI.prototype.calBestPoint = function()
 							attackPoint += 	(attContPoint*contGain);
 							contGain ++;
 						}
-						else if(defGain > 1)
+						else if(space == 0 && defGain > 1)
 						{
 							defencePoint -= defContPoint;
 							break;
@@ -162,7 +165,7 @@ omokAI.prototype.calBestPoint = function()
 					}
 					else if(nextStone.color == "empty")
 					{
-						attackPoint += 	attRemainPoint;
+						attackPoint += attRemainPoint;
 						space ++;
 					}
 					else
@@ -183,6 +186,9 @@ omokAI.prototype.calBestPoint = function()
 					break;
 				}
 			}
+
+			contGains[d-1] = contGain;
+			defGains[d-1] = defGain;
 			//console.log(" == direct-"+d+" : attackPoint = "+attackPoint+",  defencePoint = "+defencePoint);
 		}
 

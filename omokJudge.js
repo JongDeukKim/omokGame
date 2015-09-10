@@ -132,7 +132,7 @@ omokJudge.prototype.getMaxContinueNum = function(x, y)
 
 		if(cont > 0)
 		{
-			console.log("   Direction-"+direct+" : " + cont + ", MaxCont : " + maxCont);
+			//console.log("   Direction-"+direct+" : " + cont + ", MaxCont : " + maxCont);
 		}
 	}
 

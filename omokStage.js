@@ -20,6 +20,15 @@ function omokStage (xNum, yNum, canvas)
 		};
 }
 
+omokStage.prototype.resize = function(w, h)
+{
+	this.stageW = w;
+	this.stageH = h;
+	this.stageBorder = Math.round(this.stageW/this.maxX);
+	this.gridWidth = Math.round((this.stageW-this.stageBorder*2)/(this.maxX-1));
+	this.gridHeight = Math.round((this.stageH-this.stageBorder*2)/(this.maxY-1));
+}
+
 omokStage.prototype.getXNum = function() { return this.maxX; }
 omokStage.prototype.getYNum = function() { return this.maxY; }
 omokStage.prototype.getStoneNum = function() { return this.count; }
@@ -104,8 +113,8 @@ omokStage.prototype.drawStage = function()
 
 omokStage.prototype.onMouseMove = function(event)
 {
-	var xPos = Math.round (event.clientX)-this.canvas.offsetLeft;
-    var yPos = Math.round (event.clientY)-this.canvas.offsetTop;
+    var xPos = Math.round (event.clientX-this.canvas.offsetLeft+window.pageXOffset);
+    var yPos = Math.round (event.clientY-this.canvas.offsetTop+window.pageYOffset);
     var radian = this.gridWidth*0.3;
 
     //console.log("onMouseMove:" + xPos + ", " + yPos);
@@ -125,8 +134,8 @@ omokStage.prototype.onMouseMove = function(event)
 
 omokStage.prototype.onMouseClick = function(event)
 {
-	var xPos = Math.round (event.clientX)-this.canvas.offsetLeft-this.stageBorder;
-    var yPos = Math.round (event.clientY)-this.canvas.offsetTop-this.stageBorder;
+	var xPos = Math.round (event.clientX-this.canvas.offsetLeft-this.stageBorder+window.pageXOffset);
+    var yPos = Math.round (event.clientY-this.canvas.offsetTop-this.stageBorder+window.pageYOffset);
     var radian = this.gridWidth*0.3;
 
     var xIndex = Math.round(xPos/this.gridWidth);

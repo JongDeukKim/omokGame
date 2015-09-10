@@ -32,10 +32,10 @@ omokGame.prototype.undo = function()
 
 omokGame.prototype.onMouseMove = function(event)
 {
-	/*if(this.playing)
+	if(this.playing)
 	{
 		this.stage.onMouseMove(event);
-	}*/
+	}
 }
 
 omokGame.prototype.onMouseClick = function(event)
@@ -72,9 +72,24 @@ omokGame.prototype.onMouseClick = function(event)
 
 omokGame.prototype.onMouseOut = function(obj)
 {
-	/*if(this.playing)
+	if(this.playing)
 	{
 		this.stage.drawStage();
 	    this.stage.drawAllStones();
-	}*/
+	}
+}
+
+omokGame.prototype.resizeStage = function()
+{
+	var maxWidth = window.innerWidth;
+	if(window.innerWidth > window.innerHeight)
+	{
+		maxWidth = window.innerHeight;
+	}
+	this.canvas.width = maxWidth;
+	this.canvas.height = maxWidth;
+
+	this.stage.resize(maxWidth, maxWidth);
+	this.stage.drawStage();
+	this.stage.drawAllStones();
 }
