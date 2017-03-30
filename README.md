@@ -1,5 +1,6 @@
 # omokGame
 오목 게임
+Start Game : http://jongdeukkim.github.io/omokGame/
 
 ToDo List.
 
